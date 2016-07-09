@@ -3,6 +3,16 @@ module BlackJackCLI
   class DealerView
 
     def deal
+      @hand
+    end
+
+    def compare(hands)
+      case 
+      when hands[:player] > 21
+        return :bust
+      when hands[:player] > hands[:dealer]
+        return :stand
+      end
     end
 
   end
