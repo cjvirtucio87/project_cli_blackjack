@@ -20,13 +20,21 @@ module BlackJackCLI
   class PlayerView
     attr_reader :move
 
-    def initialize
-      @stand
+    def ask_move
+      begin
+        @move = gets.chomp
+        raise StandardError unless validate(@move)
+      rescue StandardError
+        puts "Invalid move. Try again"
+        retry
+      end
+      @move
     end
 
-    def ask_move
-      @move = gets.chomp
-    end
+    private
+      def validate(move)
+        ['hit','stand'].include?(move)
+      end
 
   end
 

@@ -17,8 +17,8 @@ module BlackJackCLI
     end
 
     def playing?
-      return false if @player.move == 'stand'
-      return false if [:stand,:bust].include? @comparison
+      return false if @player.move == 'stand' || \
+                      [:stand,:bust].include?(@comparison)
       true
     end
 
