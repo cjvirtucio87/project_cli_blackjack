@@ -29,6 +29,28 @@ module BlackJackCLI
       processed
     end
 
+    #Open up singleton class.
+    class << self
+      
+      def process_points(hand)
+        [:first,:second].reduce(0) do |m,e|
+          key = hand[e][:deck].keys.first
+          add_values(m,key)
+        end
+      end
+      
+      def add_values(memo,key)
+        if /\d/.match(key)
+          memo += key.to_i
+        elsif key.length > 3
+          memo += 10
+        elsif key == 'ace'
+          memo += (memo + 11) > 21 ? 1 : 11
+        end
+      end
+
+    end
+
   end
 
 end

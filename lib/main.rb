@@ -1,10 +1,13 @@
-require 'controllers'
-require 'views'
+require_relative 'controllers'
+require_relative 'views'
+require_relative 'models'
 
 module BlackJackCLI
 
   def BlackJackCLI.main
-    gcont = BlackJackCLI::GameController.new
+    BlackJackCLI::GameController.new.play
   end
   
 end
+
+BlackJackCLI.main

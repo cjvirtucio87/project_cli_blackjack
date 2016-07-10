@@ -4,28 +4,39 @@ module BlackJackCLI
 
   class DealerView
 
-    def deal
-      @hand = Hash.new
+    def welcome(player)
+      puts "Welcome to blackjack. What's your name?"
+      player.name = gets.chomp
+      puts "Well met, #{player.name}."
+    end
+
+    def deal(player)
+      puts "Dealing cards..."
+      @hands = Hash.new
       [:dealer,:player].each do |k| 
-        @hand[k] = { first: Card.new.process_card,
-                     second: Card.new.process_card } 
+        @hands[k] = { first: Card.new.process_card,
+                      second: Card.new.process_card } 
       end
-      @hand
+      @hand = @hands[:dealer]
+      player.hand = @hands[:player]
+      @hands
     end
 
     def compare(hands)
+      p_hand = Card.process_points(hands[:player])
+      d_hand = Card.process_points(hands[:dealer])
       case 
-      when hands[:player] > 21
-        return :bust
-      when hands[:player] > hands[:dealer]
-        return :stand
+      when p_hand > 21
+        :bust
+      when p_hand > d_hand
+        :stand
       end
     end
 
   end
 
   class PlayerView
-    attr_accessor :hand
+    attr_accessor :hand, :name
     attr_reader :move
 
     def ask_move
@@ -48,39 +59,22 @@ module BlackJackCLI
            "FIRST: #{first_deck} of #{first_suit}s\n" +
            "SECOND: #{second_deck} of #{second_suit}s\n" +
            "\n"
-      points_breakdown
     end
 
-    def points_breakdown
+    def display_points
       first = @hand[:first][:deck].values.first
       second = @hand[:second][:deck].values.first
       puts "Points breakdown:\n" +
            "FIRST: #{first}\n" + 
            "SECOND: #{second}\n" +
-           "TOTAL: #{points = process_points}"
+           "TOTAL: #{points = Card.process_points(hand)}"
       points
     end
 
     private
+      
       def validate(move)
         ['hit','stand'].include?(move)
-      end
-
-      def process_points
-        [:first,:second].reduce(0) do |m,e|
-          key = @hand[e][:deck].keys.first
-          add_values(m,key)
-        end
-      end
-      
-      def add_values(memo,key)
-        if /\d/.match(key)
-          memo += key.to_i
-        elsif key.length > 3
-          memo += 10
-        elsif key == 'ace'
-          memo += (memo + 11) > 21 ? 1 : 11
-        end
       end
 
   end
