@@ -1,3 +1,5 @@
+require 'pry'
+
 module BlackJackCLI
 
   class Card
@@ -33,9 +35,21 @@ module BlackJackCLI
     class << self
       
       def process_points(hand)
-        [:first,:second].reduce(0) do |m,e|
-          key = hand[e][:deck].keys.first
-          add_values(m,key)
+        hand.values.reduce(0) do |m,v|
+          process_points_card(m,v)
+        end
+      end
+
+      def process_points_card(memo,card)
+        case card
+        when Hash
+          key = card[:deck].keys.first
+          add_values(memo,key)
+        when Array
+          unless card.empty?
+            memo += card.reduce(0) { |m,c| process_points_card(memo,c) }
+          end
+          memo
         end
       end
       

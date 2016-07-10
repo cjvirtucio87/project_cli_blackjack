@@ -14,19 +14,12 @@ module BlackJackCLI
     end
 
     def play
-      @hands = @dealer.deal(player)
-      while playing?
+      @dealer.deal(player)
+      loop do
         @player.display_hand
         @player.display_points
-        @player.ask_move
-        @comparison = @dealer.compare(@hands)
+        @dealer.handle(@player.ask_move,@player)
       end
-    end
-
-    def playing?
-      return false if @player.move == 'stand' || \
-                      [:stand,:bust].include?(@comparison)
-      true
     end
 
   end
