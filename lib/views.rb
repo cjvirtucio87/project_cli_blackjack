@@ -76,9 +76,9 @@ module BlackJackCLI
       
       #continue here 
       def add_values(memo,key)
-        if key.respond_to?(:to_i)
+        if /\d/.match(key)
           memo += key.to_i
-        elsif ["jack","queen","king"].include?(key)
+        elsif key.length > 3
           memo += 10
         elsif key == 'ace'
           memo += (memo + 11) > 21 ? 1 : 11
@@ -88,9 +88,3 @@ module BlackJackCLI
   end
 
 end
-
-player = BlackJackCLI::PlayerView.new
-dealer = BlackJackCLI::DealerView.new
-
-player.hand = dealer.deal[:player]
-player.display_hand
