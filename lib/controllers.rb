@@ -11,6 +11,7 @@ module BlackJackCLI
     def play
       @hands = @dealer.deal
       while playing?
+        @player.display_hand
         @player.ask_move
         @comparison = @dealer.compare(@hands)
       end

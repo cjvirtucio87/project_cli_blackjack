@@ -44,6 +44,7 @@ module BlackJackCLI
       first_deck = @hand[:first][:deck].keys.first
       second_suit = @hand[:second][:suit]
       second_deck = @hand[:second][:deck].keys.first
+      p @hand
       puts "You have the following cards:"
       puts "FIRST: #{first_deck} of #{first_suit}s"
       puts "SECOND: #{second_deck} of #{second_suit}s"
@@ -57,11 +58,31 @@ module BlackJackCLI
       puts "Points breakdown:"
       puts "FIRST: #{first}"
       puts "SECOND: #{second}"
+      puts "TOTAL: #{process_points}"
     end
 
     private
       def validate(move)
         ['hit','stand'].include?(move)
+      end
+
+      def process_points
+        [:first,:second].reduce(0) do |m,e|
+          key = @hand[e][:deck].keys.first
+          puts key
+          add_values(m,key)
+        end
+      end
+      
+      #continue here 
+      def add_values(memo,key)
+        if key.respond_to?(:to_i)
+          memo += key.to_i
+        elsif ["jack","queen","king"].include?(key)
+          memo += 10
+        elsif key == 'ace'
+          memo += (memo + 11) > 21 ? 1 : 11
+        end
       end
 
   end
