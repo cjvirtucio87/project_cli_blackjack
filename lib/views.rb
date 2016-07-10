@@ -7,8 +7,8 @@ module BlackJackCLI
     def deal
       @hand = Hash.new
       [:dealer,:player].each do |k| 
-        @hand[k] = { first: Card.new.process,
-                     second: Card.new.process } 
+        @hand[k] = { first: Card.new.process_card,
+                     second: Card.new.process_card } 
       end
       @hand
     end
@@ -44,21 +44,21 @@ module BlackJackCLI
       first_deck = @hand[:first][:deck].keys.first
       second_suit = @hand[:second][:suit]
       second_deck = @hand[:second][:deck].keys.first
-      p @hand
-      puts "You have the following cards:"
-      puts "FIRST: #{first_deck} of #{first_suit}s"
-      puts "SECOND: #{second_deck} of #{second_suit}s"
-      puts ""
+      puts "You have the following cards:\n" +
+           "FIRST: #{first_deck} of #{first_suit}s\n" +
+           "SECOND: #{second_deck} of #{second_suit}s\n" +
+           "\n"
       points_breakdown
     end
 
     def points_breakdown
       first = @hand[:first][:deck].values.first
       second = @hand[:second][:deck].values.first
-      puts "Points breakdown:"
-      puts "FIRST: #{first}"
-      puts "SECOND: #{second}"
-      puts "TOTAL: #{process_points}"
+      puts "Points breakdown:\n" +
+           "FIRST: #{first}\n" + 
+           "SECOND: #{second}\n" +
+           "TOTAL: #{points = process_points}"
+      points
     end
 
     private
@@ -69,12 +69,10 @@ module BlackJackCLI
       def process_points
         [:first,:second].reduce(0) do |m,e|
           key = @hand[e][:deck].keys.first
-          puts key
           add_values(m,key)
         end
       end
       
-      #continue here 
       def add_values(memo,key)
         if /\d/.match(key)
           memo += key.to_i

@@ -14,7 +14,7 @@ module BlackJackCLI
       @card = {suit: SUITS.sample,deck: DECK[DECK.keys.sample]}
     end
 
-    def process
+    def process_card
       processed = {}
       case @card[:deck]
       when Integer
