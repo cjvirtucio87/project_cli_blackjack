@@ -1,5 +1,3 @@
-require 'pry'
-
 module BlackJackCLI
 
   class Card
@@ -16,6 +14,7 @@ module BlackJackCLI
       @card = {suit: SUITS.sample,deck: DECK[DECK.keys.sample]}
     end
 
+    #Process card for use in view.
     def process_card
       processed = {}
       case @card[:deck]
@@ -34,6 +33,7 @@ module BlackJackCLI
     #Open up singleton class.
     class << self
       
+      #Process a hand and get the total points.
       def process_points(hand)
         hand.values.reduce(0) do |m,v|
           process_points_card(m,v)
@@ -54,11 +54,12 @@ module BlackJackCLI
       end
       
       def add_values(memo,key)
-        if /\d/.match(key)
+        case
+        when /\d/.match(key)
           memo += key.to_i
-        elsif key.length > 3
+        when key.length > 3
           memo += 10
-        elsif key == 'ace'
+        when key == 'ace'
           memo += (memo + 11) > 21 ? 1 : 11
         end
       end

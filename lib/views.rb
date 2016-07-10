@@ -1,6 +1,3 @@
-require 'pry'
-require_relative 'models.rb'
-
 module BlackJackCLI
 
   class DealerView
@@ -24,6 +21,7 @@ module BlackJackCLI
       @hands
     end
 
+    #Handle the player's choice of move.
     def handle(move,player)
       case move
       when 'hit'
@@ -34,23 +32,18 @@ module BlackJackCLI
     end
 
     def compare(player)
-      # binding.pry
       p_hand = Card.process_points(@hands[:player])
       d_hand = Card.process_points(@hands[:dealer])
+      player.display_points
       case 
       when p_hand > 21
-        player.display_points
         puts "Sorry, #{player.name}. Better luck next time."
-        abort
       when p_hand > d_hand
-        player.display_points
         puts "You win!"
-        abort
-      when p_hand < d_hand
-        player.display_points
+      when p_hand <= d_hand
         puts "Didn't beat my hand. Maybe next time."
-        abort
       end
+      abort
     end
 
   end
@@ -71,15 +64,15 @@ module BlackJackCLI
     end
 
     def display_hand
-      first = stringify_card(@hand[:first])
-      second = stringify_card(@hand[:second])
-      additional = @hand[:additional].map { |card| stringify_card(card) }
       puts "You have the following cards:\n" +
-           "FIRST: #{first}\n" +
-           "SECOND: #{second}\n"
-      unless additional.empty?
+           "FIRST: #{stringify_card(@hand[:first])}\n" +
+           "SECOND: #{stringify_card(@hand[:second])}\n"
+      unless @hand[:additional].empty?
         puts "Additional cards:"
-        additional.each { |card| puts card }
+        #Process the points for each card in the :additional hash
+        @hand[:additional].map do |card| 
+          stringify_card(card)
+        end.each { |card| puts card }
         puts ""
       end
     end

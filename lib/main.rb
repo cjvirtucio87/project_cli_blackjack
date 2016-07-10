@@ -5,7 +5,7 @@ require_relative 'models'
 module BlackJackCLI
 
   def BlackJackCLI.main
-    BlackJackCLI::GameController.new.play
+    BlackJackCLI::GameController.new.run
   end
   
 end
