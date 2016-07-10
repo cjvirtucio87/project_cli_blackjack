@@ -3,6 +3,8 @@ module BlackJackCLI
   class DealerView
 
     def deal
+      @hand = Hash.new
+      [:dealer,:player].each { |k| @hand[k] = rand(21) }
       @hand
     end
 
