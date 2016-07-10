@@ -29,11 +29,11 @@ describe BlackJackCLI::DealerView do
 
   describe "#deal" do
     it "stores the player's hand" do
-      expect(dealer.deal[:player]).to be_an_instance_of(Fixnum)
+      expect(dealer.deal[:player]).to be_an_instance_of(Hash)
     end
 
     it "stores the dealer's hand" do
-      expect(dealer.deal[:dealer]).to be_an_instance_of(Fixnum)
+      expect(dealer.deal[:dealer]).to be_an_instance_of(Hash)
     end
   end
 end

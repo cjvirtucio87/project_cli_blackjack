@@ -4,7 +4,7 @@ module BlackJackCLI
 
     def deal
       @hand = Hash.new
-      [:dealer,:player].each { |k| @hand[k] = rand(21) }
+      [:dealer,:player].each { |k| @hand[k] = Card.new.process }
       @hand
     end
 
