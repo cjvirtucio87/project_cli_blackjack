@@ -6,10 +6,10 @@ describe BlackJackCLI::Card do
 
   describe "#process" do
     it "converts the card symbol to it's respective value" do
-      face = { suit: :diamond, deck: [:king,:queen,:jack] }
+      face = { suit: :diamond, deck: [:king] }
       card.instance_variable_set(:@card, face)
-      key = card.process[:deck].keys.first
-      expect(card.process[:deck][key]).to eq(10)
+      processed = card.process
+      expect(card.process[:deck]['king']).to eq(10)
     end
   end
 
